@@ -17,12 +17,17 @@ vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 16
 vim.opt.wrap = false
 
+-- Search
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+
 -- Neovim Qt
 vim.opt.guifont = "RobotoMono Nerd Font"
 
 -- Bootstrap file format
 vim.api.nvim_set_option("fileformats", "unix,dos,mac")
 
+-------- 
 vim.opt.laststatus = 3 -- global statusline
 vim.opt.showmode = false
 
@@ -50,7 +55,7 @@ vim.opt.timeoutlen = 400
 vim.opt.undofile = true
 
 -- interval for writing swap file to disk, also used by gitsigns
-vim.opt.updatetime = 250
+vim.opt.updatetime = 100
 
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
@@ -61,6 +66,3 @@ for _, provider in ipairs { "node", "perl", "python3", "ruby" } do
   vim.g["loaded_" .. provider .. "_provider"] = 0
 end
 
--- add binaries installed by mason.nvim to path
-local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
-vim.env.PATH = vim.fn.stdpath "data" .. "/mason/bin" .. (is_windows and ";" or ":") .. vim.env.PATH
