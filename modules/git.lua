@@ -4,9 +4,14 @@ return {
 		opts = {},
 		event = "BufEnter",
 	},
-	--
-	-- TODO: Make have a plugin or make something that gives a list of conflicts, displays them, and allows me to go through them progressively
-	--
-	-- git diff --name-only --diff-filter=U --relative
-	--
+	{
+		"akinsho/git-conflict.nvim",
+		opts = {
+			default_mappings = false,
+		},
+		event = "BufEnter",
+		keys = {
+			{ "cq", "<CMD>:GitConflictListQf<CR>", desc = "[C]onflict [Q]uicklist" },
+		},
+	},
 }
