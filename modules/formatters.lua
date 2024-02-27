@@ -3,7 +3,6 @@ local mason_utils = require("rikthepixel.utils.mason")
 return {
 	{
 		"mhartington/formatter.nvim",
-		lazy = false,
 		dependencies = {
 			"neovim/nvim-lspconfig",
 			"williamboman/mason.nvim",

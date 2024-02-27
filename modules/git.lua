@@ -9,7 +9,7 @@ return {
 		opts = {
 			default_mappings = false,
 		},
-		event = "BufEnter",
+		event = "VeryLazy",
 		keys = {
 			{ "cq", "<CMD>:GitConflictListQf<CR>", desc = "[C]onflict [Q]uicklist" },
 		},

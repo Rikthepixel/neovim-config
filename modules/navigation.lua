@@ -22,6 +22,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
+		event = "VeryLazy",
 		opts = {},
 		keys = {
 			{ "<leader>fm", toggle_file_mark, desc = "[F]ile [M]ark" },
@@ -85,6 +86,8 @@ return {
 						"--line-number",
 						"--column",
 						"--smart-case",
+                        "--path-separator",
+                        "/"
 					},
 					prompt_prefix = "   ",
 					selection_caret = "  ",

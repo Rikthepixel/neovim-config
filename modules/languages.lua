@@ -1,4 +1,5 @@
 local languages = {
+
 	html = {},
 	cssls = {},
 	clangd = {},
@@ -7,6 +8,7 @@ local languages = {
 	yamlls = {},
 	jdtls = {},
 	rust_analyzer = {},
+	omnisharp = {},
 	intelephense = {
 		settings = {
 			intelephense = {
@@ -104,6 +106,7 @@ local highlights = {
 	"jsdoc",
 	"html",
 	"css",
+	"c_sharp",
 	"dockerfile",
 	"gitattributes",
 	"gitignore",
@@ -147,62 +150,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 return {
 	{
 		"neovim/nvim-lspconfig",
-		lazy = false,
+		event = "BufEnter",
 		dependencies = {
-			{
-				"hrsh7th/nvim-cmp",
-				dependencies = {
-					{ "L3MON4D3/LuaSnip", opts = {}, version = "v2.*" },
-					{ "windwp/nvim-autopairs", opts = {} },
-					"onsails/lspkind.nvim",
-					"saadparwaiz1/cmp_luasnip",
-					"hrsh7th/cmp-nvim-lsp",
-					"hrsh7th/cmp-buffer",
-					"hrsh7th/cmp-path",
-					"hrsh7th/cmp-cmdline",
-				},
-				opts = function()
-					local cmp = require("cmp")
-					local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-					cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-
-					return {
-						snippet = {
-							expand = function(args)
-								require("luasnip").lsp_expand(args.body)
-							end,
-						},
-						window = {
-							completion = cmp.config.window.bordered(),
-							documentation = cmp.config.window.bordered(),
-						},
-						formatting = {
-							format = require("lspkind").cmp_format({
-								mode = "symbol_text",
-								maxwidth = 50,
-								ellipsis_char = "...",
-								show_labelDetails = true,
-							}),
-						},
-						mapping = cmp.mapping.preset.insert({
-							["<C-b>"] = cmp.mapping.scroll_docs(-4),
-							["<C-f>"] = cmp.mapping.scroll_docs(4),
-							["<A-Space>"] = cmp.mapping.complete(),
-							["<C-e>"] = cmp.mapping.abort(),
-							["<CR>"] = cmp.mapping.confirm({ select = true }),
-						}),
-						sources = cmp.config.sources({
-							{ name = "nvim_lsp" },
-							{ name = "path" },
-							{ name = "luasnip" },
-						}, {
-							{ name = "buffer" },
-						}),
-					}
-				end,
-			},
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
 			require("mason").setup()
@@ -210,6 +162,8 @@ return {
 				ensure_installed = vim.tbl_keys(languages),
 				automatic_installation = true,
 			})
+
+			require("rikthepixel.utils.mason").install_missing("typescript-language-server")
 
 			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -225,20 +179,62 @@ return {
 		end,
 	},
 	{
-		"pmizio/typescript-tools.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-		ft = { "javascript", "typescript", "typescriptreact", "javascriptreact" },
-		opts = {
-			settings = {
-				jsx_close_tag = {
-					enable = true,
-				},
-			},
+		"hrsh7th/nvim-cmp",
+		event = "InsertEnter",
+		dependencies = {
+			{ "L3MON4D3/LuaSnip", opts = {}, version = "v2.*" },
+			{ "windwp/nvim-autopairs", opts = {} },
+			"onsails/lspkind.nvim",
+			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-cmdline",
+			"hrsh7th/cmp-nvim-lsp",
+			"neovim/nvim-lspconfig",
 		},
+		opts = function()
+			local cmp = require("cmp")
+			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+			return {
+				snippet = {
+					expand = function(args)
+						require("luasnip").lsp_expand(args.body)
+					end,
+				},
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
+				},
+				formatting = {
+					format = require("lspkind").cmp_format({
+						mode = "symbol_text",
+						maxwidth = 50,
+						ellipsis_char = "...",
+						show_labelDetails = true,
+					}),
+				},
+				mapping = cmp.mapping.preset.insert({
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<A-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
+				}),
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					{ name = "path" },
+					{ name = "luasnip" },
+				}, {
+					{ name = "buffer" },
+				}),
+			}
+		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-		lazy = false,
+		event = "BufEnter",
 		main = "nvim-treesitter.configs",
 		opts = {
 			ensure_installed = highlights,
@@ -257,7 +253,18 @@ return {
 				},
 			},
 		},
-
 		build = ":TSUpdate",
+	},
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		ft = { "javascript", "typescript", "typescriptreact", "javascriptreact" },
+		opts = {
+			settings = {
+				jsx_close_tag = {
+					enable = true,
+				},
+			},
+		},
 	},
 }

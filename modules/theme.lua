@@ -1,9 +1,9 @@
 local function harpoon_mark()
-	local harpoon = require("harpoon")
-	if not harpoon then
-		return ""
-	end
+    if not package.loaded["harpoon"] then
+        return ""
+    end
 
+	local harpoon = require("harpoon")
 	local harpoon_list = harpoon:list()
 	local display = harpoon_list.config.create_list_item(harpoon_list.config).value
 	if display == nil or display == "" then
@@ -22,8 +22,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		priority = 1000,
-		lazy = false,
+		event = "BufEnter",
 		opts = {
 			no_italic = true,
 			integration = {
@@ -37,7 +36,7 @@ return {
 	},
 	{
 		"nvim-lualine/lualine.nvim",
-		lazy = false,
+		event = "BufEnter",
 		-- Lualine theme configured by Catppuccin
 		opts = {
 			sections = {
