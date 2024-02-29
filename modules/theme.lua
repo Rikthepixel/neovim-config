@@ -1,10 +1,9 @@
 local function harpoon_mark()
-    if not package.loaded["harpoon"] then
-        return ""
-    end
+	if not package.loaded["harpoon"] then
+		return ""
+	end
 
-	local harpoon = require("harpoon")
-	local harpoon_list = harpoon:list()
+	local harpoon_list = require("harpoon"):list()
 	local display = harpoon_list.config.create_list_item(harpoon_list.config).value
 	if display == nil or display == "" then
 		return ""
@@ -40,10 +39,7 @@ return {
 		-- Lualine theme configured by Catppuccin
 		opts = {
 			sections = {
-				lualine_c = {
-					"filename",
-					harpoon_mark,
-				},
+				lualine_c = { "filename", harpoon_mark },
 			},
 		},
 		dependencies = {
