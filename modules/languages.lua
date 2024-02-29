@@ -1,5 +1,4 @@
 local languages = {
-
 	html = {},
 	cssls = {},
 	clangd = {},
@@ -9,93 +8,9 @@ local languages = {
 	jdtls = {},
 	rust_analyzer = {},
 	omnisharp = {},
-	intelephense = {
-		settings = {
-			intelephense = {
-				telemetry = {
-					enabled = false,
-				},
-			},
-		},
-	},
-	tailwindcss = {
-		filetypes = {
-			"aspnetcorerazor",
-			"astro",
-			"astro-markdown",
-			"blade",
-			"clojure",
-			"django-html",
-			"htmldjango",
-			"edge",
-			"eelixir",
-			"elixir",
-			"ejs",
-			"erb",
-			"eruby",
-			"gohtml",
-			"haml",
-			"handlebars",
-			"hbs",
-			"html",
-			"html-eex",
-			"heex",
-			"jade",
-			"leaf",
-			"liquid",
-			"markdown",
-			"mdx",
-			"markdown.mdx",
-			"mustache",
-			"njk",
-			"nunjucks",
-			"php",
-			"razor",
-			"slim",
-			"twig",
-			"css",
-			"less",
-			"postcss",
-			"sass",
-			"scss",
-			"stylus",
-			"sugarss",
-			"javascript",
-			"javascriptreact",
-			"reason",
-			"rescript",
-			"typescript",
-			"typescriptreact",
-			"vue",
-			"svelte",
-		},
-		init_options = {
-			userLanguages = {
-				eelixir = "html-eex",
-				eruby = "erb",
-				mdx = "markdown.mdx",
-				["markdown.mdx"] = "markdown.mdx",
-			},
-		},
-	},
-	lua_ls = {
-		settings = {
-			Lua = {
-				runtime = {
-					version = "LuaJIT",
-				},
-				diagnostics = {
-					globals = { "vim" },
-				},
-				workspace = {
-					library = vim.api.nvim_get_runtime_file("", true),
-				},
-				telemetry = {
-					enable = false,
-				},
-			},
-		},
-	},
+	intelephense = require("rikthepixel.lsp.intelephense"),
+	tailwindcss = require("rikthepixel.lsp.tailwind"),
+	lua_ls = require("rikthepixel.lsp.lua"),
 }
 
 local highlights = {
