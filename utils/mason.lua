@@ -15,7 +15,7 @@ function mason_utils.install_missing(...)
 		return
 	end
 
-	vim.api.nvim_exec("MasonInstall " .. packages_to_install, true)
+	vim.cmd("MasonInstall " .. packages_to_install)
 end
 
 return mason_utils

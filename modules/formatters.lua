@@ -1,4 +1,36 @@
+local formatter_utils = require("rikthepixel.utils.formatter")
 local mason_utils = require("rikthepixel.utils.mason")
+local node_utils = require("rikthepixel.utils.node")
+
+local function make_js_formatters(flavor)
+	return formatter_utils.make_switch(require("formatter.filetypes." .. flavor).prettierd, {
+		{
+			function()
+				return node_utils.includes_some_packages("prettier", "prettierd")
+			end,
+			require("formatter.filetypes." .. flavor).prettierd,
+		},
+		{
+			function()
+				return node_utils.includes_some_packages("standard")
+			end,
+			require("formatter.filetypes." .. flavor).standard,
+		},
+		{
+			function()
+				return node_utils.includes_some_packages("ts-standard")
+			end,
+			function()
+				return {
+					exe = "ts-standard",
+					args = { "--stdin", "--fix" },
+					stdin = true,
+					try_node_modules = true,
+				}
+			end,
+		},
+	})
+end
 
 return {
 	{
@@ -18,16 +50,16 @@ return {
 						require("formatter.filetypes.lua").stylua,
 					},
 					javascript = {
-						require("formatter.filetypes.javascript").prettierd,
+						make_js_formatters("javascript"),
 					},
 					javascriptreact = {
-						require("formatter.filetypes.javascriptreact").prettierd,
+						make_js_formatters("javascriptreact"),
 					},
 					typescript = {
-						require("formatter.filetypes.typescript").prettierd,
+						make_js_formatters("typescript"),
 					},
 					typescriptreact = {
-						require("formatter.filetypes.typescriptreact").prettierd,
+						make_js_formatters("typescriptreact"),
 					},
 				},
 			}
