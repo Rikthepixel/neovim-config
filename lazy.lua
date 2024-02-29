@@ -1,6 +1,6 @@
 return function(config_name, modules_path)
-	local lazy_path = vim.fn.stdpath("data") .. "/" .. config_name .. "/lazy/lazy.nvim"
 	local lazy_packages = vim.fn.stdpath("data") .. "/" .. config_name .. "/lazy"
+	local lazy_path = lazy_packages .. "/lazy.nvim"
 
 	if not vim.loop.fs_stat(lazy_path) then
 		vim.fn.system({
@@ -14,17 +14,14 @@ return function(config_name, modules_path)
 	end
 
 	if not vim.loop.fs_stat(lazy_path) then
-		vim.notify_once("lazy, and all your packages could not be loaded")
-		return
+		return vim.notify_once("FATAL: Lazy could not be loaded")
 	end
 
 	vim.opt.rtp:prepend(lazy_path)
 
 	require("lazy").setup(modules_path, {
 		root = lazy_packages,
-		defaults = {
-			lazy = true,
-		},
+		defaults = { lazy = true },
 		lockfile = vim.fn.stdpath("config") .. "/lua/" .. config_name .. "/lazy-lock.json",
 	})
 end
