@@ -61,6 +61,9 @@ return {
 					typescriptreact = {
 						make_js_formatters("typescriptreact"),
 					},
+                    cs = {
+                        require("formatter.filetypes.cs").dotnetformat
+                    }
 				},
 			}
 		end,
