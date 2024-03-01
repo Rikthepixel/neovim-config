@@ -3,4 +3,3 @@
 ## Requirements
 - File-tree
 - Moving files (ts, js, tsx, jsx) triggers import changes
-- Loading appropriate formatter
