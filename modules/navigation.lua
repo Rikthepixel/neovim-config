@@ -49,7 +49,7 @@ return {
 			{
 				"<leader>sf",
 				function()
-					require("telescope.builtin").find_files()
+					require("telescope.builtin").find_files({ hidden = true })
 				end,
 				desc = "[S]earch [F]iles",
 			},
@@ -86,8 +86,8 @@ return {
 						"--line-number",
 						"--column",
 						"--smart-case",
-                        "--path-separator",
-                        "/"
+						"--path-separator",
+						"/",
 					},
 					prompt_prefix = "   ",
 					selection_caret = "  ",
@@ -107,7 +107,7 @@ return {
 					},
 					file_sorter = require("telescope.sorters").get_fuzzy_file,
 					generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-					file_ignore_patterns = { "node_modules" },
+					file_ignore_patterns = { "node_modules", ".git", "package-lock.json", "build", "dist" },
 					path_display = { "truncate" },
 					mappings = {
 						n = { ["q"] = require("telescope.actions").close },
