@@ -25,6 +25,8 @@ local highlights = {
 	"dockerfile",
 	"gitattributes",
 	"gitignore",
+    "vim",
+    "vimdoc"
 }
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "[E]rror" })
