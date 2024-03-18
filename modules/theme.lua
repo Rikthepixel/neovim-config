@@ -27,6 +27,9 @@ return {
 			integration = {
 				mason = true,
 				harpoon = true,
+				gitsigns = true,
+				cmp = true,
+				treesitter = true,
 			},
 		},
 		init = function()
@@ -36,8 +39,10 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "BufEnter",
-		-- Lualine theme configured by Catppuccin
 		opts = {
+			options = {
+				theme = "catppuccin",
+			},
 			sections = {
 				lualine_c = { "filename", harpoon_mark },
 			},
