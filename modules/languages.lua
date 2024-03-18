@@ -22,6 +22,7 @@ local highlights = {
 	"html",
 	"css",
 	"c_sharp",
+    "php",
 	"dockerfile",
 	"gitattributes",
 	"gitignore",
