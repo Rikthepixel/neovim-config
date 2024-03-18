@@ -15,7 +15,11 @@ Using Lazy.nvim most plugins are lazy loaded by default, so no insane startup ti
 ### Navigation
 
 - Harpoon 2.0
+    - Toggle file marks with `<leader>fm` in normal-mode
+    - View quick-list using `<leader>fq` in normal-mode
+    - Go to next or previous marks with `<leader>fn` and `<leader>fp`
     - Marked files are displayed on the status-line
+    - Mark files in telescope using  `<C-f>` in insert-mode or `<leader>fm` in normal-mode
 - Telescope
 
 ### LSP and highlighting

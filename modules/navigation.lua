@@ -1,14 +1,51 @@
-local function toggle_file_mark()
+local function toggle_file_mark(item)
 	local harpoon = require("harpoon")
 	local harpoon_list = harpoon:list()
 	local original_length = harpoon_list:length()
-	harpoon_list:append()
+	harpoon_list:append(item)
 	if harpoon_list:length() ~= original_length then
 		return
 	end
-	harpoon_list:remove()
+	harpoon_list:remove(item)
 	harpoon:sync()
 end
+
+local function telescope_toggle_file_mark()
+	local entry = require("telescope.actions.state").get_selected_entry()
+	if not entry then
+		return
+	end
+	local harpoon = require("harpoon")
+	local harpoon_list = harpoon:list()
+	local entry_text = entry[1]
+	local _, colonIdx = string.find(entry_text, ":")
+	if colonIdx then
+		entry_text = string.sub(entry_text, 1, colonIdx - 1)
+	end
+
+	local item = harpoon_list.config.create_list_item(harpoon_list.config, entry_text)
+
+	toggle_file_mark(item)
+end
+
+-- local function prune_deleted()
+-- 	local harpoon = require("harpoon")
+-- 	local harpoon_list = harpoon:list()
+--     vim.print(harpoon_list.items)
+-- 	for i, entry in pairs(harpoon_list.items) do
+-- 		local file = entry.value
+--
+-- 		local found_files = vim.fs.find(file, {
+-- 			type = "file",
+-- 			path = vim.fs.dirname(file),
+-- 		})
+--
+-- 		if #found_files == 0 then
+-- 			harpoon_list:removeAt(i)
+-- 		end
+-- 	end
+-- 	harpoon:sync()
+-- end
 
 local function toggle_quick_menu()
 	local harpoon = require("harpoon")
@@ -107,10 +144,16 @@ return {
 					},
 					file_sorter = require("telescope.sorters").get_fuzzy_file,
 					generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-					file_ignore_patterns = { "node_modules", ".git", "package-lock.json", "build", "dist" },
+					file_ignore_patterns = { "node_modules", ".git", "!git", "package-lock.json", "build", "dist", "obj", "bin" },
 					path_display = { "truncate" },
 					mappings = {
-						n = { ["q"] = require("telescope.actions").close },
+						n = {
+							["q"] = require("telescope.actions").close,
+							["<leader>fm"] = telescope_toggle_file_mark,
+						},
+						i = {
+							["<C-f>"] = telescope_toggle_file_mark,
+						},
 					},
 				},
 			}
