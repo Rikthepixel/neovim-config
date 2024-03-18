@@ -28,6 +28,8 @@ Using Lazy.nvim most plugins are lazy loaded by default, so no insane startup ti
     - Marked files are displayed on the status-line
     - Mark files in telescope using  `<C-f>` in insert-mode or `<leader>fm` in normal-mode
 - Telescope
+    - Search files `<leader>sf`
+    - Search grep `<leader>sg`
 
 ### LSP and highlighting
 
@@ -35,13 +37,19 @@ Using Lazy.nvim most plugins are lazy loaded by default, so no insane startup ti
 - LSP with lspconfig-mason
     - Call the lspconfig setup function and it will automatically install required lsps
     - JavaScript and variants allow for automatic import refactoring when moving files
+    - Usage:
+        - `<leader>t` View signature
+        - `<leader>s` View type
+        - `<leader>gd` Go-to definition
+        - `<leader>gr` Go-to reference
+- Autocomplete using nvim-cmp
 
 ### Formatting
 
-- Formatter.nvim
+- Formatter.nvim `<leader>fd` (also works in visual-mode)
     - Helpers to only run certain formatters if conditions are met (Like `.prettierrc` exists)
 
 ### Git
 
-- Conflict viewer
+- Conflict viewer `<leader>cq`
 - Git signs
