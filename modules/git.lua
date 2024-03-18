@@ -11,7 +11,7 @@ return {
 		},
 		event = "VeryLazy",
 		keys = {
-			{ "cq", "<CMD>:GitConflictListQf<CR>", desc = "[C]onflict [Q]uicklist" },
+			{ "<leader>cq", "<CMD>:GitConflictListQf<CR>", desc = "[C]onflict [Q]uicklist" },
 		},
 	},
 }
