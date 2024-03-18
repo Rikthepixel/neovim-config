@@ -1,5 +1,9 @@
 # RikThePixel's neovim config
 
+## Known bugs
+
+- 
+
 ## Planned features
 
 - WhichKey: for if other people want to use the config and see which keys are available.
