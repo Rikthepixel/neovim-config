@@ -40,7 +40,7 @@ return {
 			"williamboman/mason.nvim",
 		},
 		opts = function()
-			mason_utils.install_missing("prettierd", "stylua")
+			mason_utils.install_missing("prettierd", "stylua", "pint")
 
 			return {
 				logging = true,
@@ -49,6 +49,12 @@ return {
 					lua = {
 						require("formatter.filetypes.lua").stylua,
 					},
+                    php = {
+                        require("formatter.filetypes.php").pint
+                    },
+                    cs = {
+                        require("formatter.filetypes.cs").dotnetformat
+                    },
 					javascript = {
 						make_js_formatters("javascript"),
 					},
@@ -60,10 +66,7 @@ return {
 					},
 					typescriptreact = {
 						make_js_formatters("typescriptreact"),
-					},
-                    cs = {
-                        require("formatter.filetypes.cs").dotnetformat
-                    }
+					}
 				},
 			}
 		end,
