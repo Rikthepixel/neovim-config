@@ -28,25 +28,6 @@ local function telescope_toggle_file_mark()
 	toggle_file_mark(item)
 end
 
--- local function prune_deleted()
--- 	local harpoon = require("harpoon")
--- 	local harpoon_list = harpoon:list()
---     vim.print(harpoon_list.items)
--- 	for i, entry in pairs(harpoon_list.items) do
--- 		local file = entry.value
---
--- 		local found_files = vim.fs.find(file, {
--- 			type = "file",
--- 			path = vim.fs.dirname(file),
--- 		})
---
--- 		if #found_files == 0 then
--- 			harpoon_list:removeAt(i)
--- 		end
--- 	end
--- 	harpoon:sync()
--- end
-
 local function toggle_quick_menu()
 	local harpoon = require("harpoon")
 	harpoon.ui:toggle_quick_menu(harpoon:list())
