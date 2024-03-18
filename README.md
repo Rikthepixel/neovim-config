@@ -1,5 +1,12 @@
 # RikThePixel's neovim config
 
+## Planned features
+
+- WhichKey: for if other people want to use the config and see which keys are available.
+- File-tree: replace netrw for a file-tree plugin that is less clunky. 
+- Toggable buffer-tabs.
+- Commands for switching back and forth to previous and next buffers.
+
 ## Included features
 
 ### Package manager
