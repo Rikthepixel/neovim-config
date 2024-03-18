@@ -33,6 +33,19 @@ local function toggle_quick_menu()
 	harpoon.ui:toggle_quick_menu(harpoon:list())
 end
 
+local file_mark_goto_keys = {}
+for i = 1, 10 do
+	local num = i == 10 and 0 or i
+
+	table.insert(file_mark_goto_keys, {
+		"<leader>" .. num,
+		function()
+			require("harpoon"):list():select(i)
+		end,
+		desc = "Goto file mark " .. num,
+	})
+end
+
 return {
 	{
 		"ThePrimeagen/harpoon",
@@ -41,8 +54,13 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		event = "VeryLazy",
-		opts = {},
-		keys = {
+		opts = {
+			settings = {
+				sync_on_ui_close = true,
+				save_on_toggle = true,
+			},
+		},
+		keys = vim.list_extend({
 			{ "<leader>fm", toggle_file_mark, desc = "[F]ile [M]ark" },
 			{ "<leader>fq", toggle_quick_menu, desc = "[F]ile [Q]uick menu" },
 			{
@@ -59,7 +77,7 @@ return {
 				end,
 				desc = "[F]ile [P]revious",
 			},
-		},
+		}, file_mark_goto_keys),
 	},
 	{
 		"nvim-telescope/telescope.nvim",
@@ -125,7 +143,15 @@ return {
 					},
 					file_sorter = require("telescope.sorters").get_fuzzy_file,
 					generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-					file_ignore_patterns = { "node_modules[\\/]", "%.git[\\/]", "package-lock.json$", "build[\\/]", "dist[\\/]", "obj[\\/]", "bin[\\/]" },
+					file_ignore_patterns = {
+						"node_modules[\\/]",
+						"%.git[\\/]",
+						"package-lock.json$",
+						"build[\\/]",
+						"dist[\\/]",
+						"obj[\\/]",
+						"bin[\\/]",
+					},
 					path_display = { "truncate" },
 					mappings = {
 						n = {
