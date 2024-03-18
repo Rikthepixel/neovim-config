@@ -2,7 +2,6 @@
 
 ## Known bugs
 
-- Searching for anything starting with `git` in `<leader>sf` will not show up
 - Deleted file-marks stay in the harpoon list
 
 ## Planned features
