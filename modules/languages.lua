@@ -1,3 +1,5 @@
+local list_utils = require("rikthepixel.utils.list")
+
 local languages = {
 	html = {},
 	cssls = {},
@@ -7,7 +9,7 @@ local languages = {
 	yamlls = {},
 	jdtls = {},
 	rust_analyzer = {},
-	omnisharp = {},
+	omnisharp = require("rikthepixel.lsp.omnisharp"),
 	intelephense = require("rikthepixel.lsp.intelephense"),
 	tailwindcss = require("rikthepixel.lsp.tailwind"),
 	lua_ls = require("rikthepixel.lsp.lua"),
@@ -21,13 +23,19 @@ local highlights = {
 	"jsdoc",
 	"html",
 	"css",
+	"astro",
 	"c_sharp",
-    "php",
+	"php",
 	"dockerfile",
 	"gitattributes",
 	"gitignore",
-    "vim",
-    "vimdoc"
+	"vim",
+	"vimdoc",
+	"ssh_config",
+	"toml",
+	"yaml",
+	"markdown",
+	"markdown_inline",
 }
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "[E]rror" })
@@ -56,12 +64,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "[W]orkspace [A]dd", buffer = ev.buf })
 		vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "[W]orkspace [R]emove", buffer = ev.buf })
 		vim.keymap.set("n", "<leader>wl", function()
-			print(vim.inspect(vim.lsp.buf.list_workLeader_folders()))
+			vim.print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, { desc = "[W]orkspace [L]ist", buffer = ev.buf })
 
 		-- Actions
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[N]ame", buffer = ev.buf })
 		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ctions", buffer = ev.buf })
+
+		local clients = vim.lsp.buf_get_clients()
+
+		local has_omnisharp = list_utils.find(clients, function(client)
+			return client.name == "omnisharp"
+		end)
+
+		if has_omnisharp then
+			local omnisharp_extended = require("omnisharp_extended")
+			vim.keymap.set("n", "gr", omnisharp_extended.lsp_references, { desc = "[G]o to [R]eference", buffer = ev.buf })
+			vim.keymap.set("n", "gi", omnisharp_extended.lsp_implementation, { desc = "[G]o to [I]mplementation", buffer = ev.buf })
+			vim.keymap.set("n", "gd", omnisharp_extended.lsp_definition, { desc = "[G]o to [D]efinition", buffer = ev.buf })
+		end
 	end,
 })
 
@@ -73,6 +94,7 @@ return {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
+			"Hoffs/omnisharp-extended-lsp.nvim",
 		},
 		config = function()
 			require("mason").setup()
