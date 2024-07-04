@@ -13,6 +13,7 @@ local languages = {
 	intelephense = require("rikthepixel.lsp.intelephense"),
 	tailwindcss = require("rikthepixel.lsp.tailwind"),
 	lua_ls = require("rikthepixel.lsp.lua"),
+    eslint = {}
 }
 
 local highlights = {
@@ -34,6 +35,7 @@ local highlights = {
 	"ssh_config",
 	"toml",
 	"yaml",
+    "json",
 	"markdown",
 	"markdown_inline",
 }
@@ -57,8 +59,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "[G]o to [I]mplementation", buffer = ev.buf })
 
 		-- signatures and typing
-		vim.keymap.set("n", "<leader>t", vim.lsp.buf.hover, { desc = "[T]ype", buffer = ev.buf })
-		vim.keymap.set("n", "<leader>s", vim.lsp.buf.signature_help, { desc = "[S]ignature", buffer = ev.buf })
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Pee[K] type", buffer = ev.buf })
+		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Pee[k] signature", buffer = ev.buf })
 
 		-- Workspaces
 		vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "[W]orkspace [A]dd", buffer = ev.buf })

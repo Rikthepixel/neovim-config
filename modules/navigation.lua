@@ -1,13 +1,16 @@
-local function toggle_file_mark(item)
+local function toggle_file_mark(file_path)
 	local harpoon = require("harpoon")
 	local harpoon_list = harpoon:list()
-	local original_length = harpoon_list:length()
-	harpoon_list:append(item)
-	if harpoon_list:length() ~= original_length then
-		return
+	local search_item = harpoon_list.config.create_list_item(harpoon_list.config, file_path)
+
+	for _, list_item in pairs(harpoon_list.items) do
+		if list_item.value == search_item.value then
+			harpoon_list:remove(search_item)
+			return
+		end
 	end
-	harpoon_list:remove(item)
-	harpoon:sync()
+
+	harpoon_list:add(search_item)
 end
 
 local function telescope_toggle_file_mark()
@@ -15,22 +18,14 @@ local function telescope_toggle_file_mark()
 	if not entry then
 		return
 	end
-	local harpoon = require("harpoon")
-	local harpoon_list = harpoon:list()
+
 	local entry_text = entry[1]
 	local _, colonIdx = string.find(entry_text, ":")
 	if colonIdx then
 		entry_text = string.sub(entry_text, 1, colonIdx - 1)
 	end
 
-	local item = harpoon_list.config.create_list_item(harpoon_list.config, entry_text)
-
-	toggle_file_mark(item)
-end
-
-local function toggle_quick_menu()
-	local harpoon = require("harpoon")
-	harpoon.ui:toggle_quick_menu(harpoon:list())
+	toggle_file_mark(entry_text)
 end
 
 local file_mark_goto_keys = {}
@@ -62,7 +57,15 @@ return {
 		},
 		keys = vim.list_extend({
 			{ "<leader>fm", toggle_file_mark, desc = "[F]ile [M]ark" },
-			{ "<leader>fq", toggle_quick_menu, desc = "[F]ile [Q]uick menu" },
+			{
+				"<leader>fq",
+				function()
+					local harpoon = require("harpoon")
+					harpoon.ui:toggle_quick_menu(harpoon:list())
+				end,
+				desc = "[F]ile [Q]uick menu",
+			},
+
 			{
 				"<leader>fn",
 				function()
@@ -78,6 +81,41 @@ return {
 				desc = "[F]ile [P]revious",
 			},
 		}, file_mark_goto_keys),
+	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		lazy = false,
+		version = "v1.3",
+		keys = {
+			{
+				"<leader>sb",
+				function()
+					vim.api.nvim_exec2("NvimTreeToggle", {})
+				end,
+				desc = "[S]earch [B]rowser",
+			},
+		},
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+			{
+				"antosha417/nvim-lsp-file-operations",
+				dependencies = {
+					"nvim-lua/plenary.nvim",
+				},
+			},
+		},
+		opts = {
+			disable_netrw = true,
+			actions = {
+				open_file = {
+					quit_on_open = true,
+				},
+			},
+			filters = {
+				git_ignored = false,
+				dotfiles = false,
+			},
+		},
 	},
 	{
 		"nvim-telescope/telescope.nvim",

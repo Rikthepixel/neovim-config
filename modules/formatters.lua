@@ -55,6 +55,12 @@ return {
                     cs = {
                         require("formatter.filetypes.cs").dotnetformat
                     },
+                    yaml = {
+                        require("formatter.filetypes.json").prettierd
+                    },
+                    json = {
+                        require("formatter.filetypes.json").prettierd
+                    },
 					javascript = {
 						make_js_formatters("javascript"),
 					},
