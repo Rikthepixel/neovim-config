@@ -90,7 +90,7 @@ return {
 			{
 				"<leader>sb",
 				function()
-					vim.api.nvim_exec2("NvimTreeToggle", {})
+                    require("nvim-tree.api").tree.toggle({ find_file = true })
 				end,
 				desc = "[S]earch [B]rowser",
 			},
