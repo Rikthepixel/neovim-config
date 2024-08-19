@@ -12,8 +12,9 @@ local languages = {
 	omnisharp = require("rikthepixel.lsp.omnisharp"),
 	intelephense = require("rikthepixel.lsp.intelephense"),
 	tailwindcss = require("rikthepixel.lsp.tailwind"),
+	unocss = {},
 	lua_ls = require("rikthepixel.lsp.lua"),
-    eslint = {}
+	eslint = {},
 }
 
 local highlights = {
@@ -35,7 +36,7 @@ local highlights = {
 	"ssh_config",
 	"toml",
 	"yaml",
-    "json",
+	"json",
 	"markdown",
 	"markdown_inline",
 }
@@ -124,9 +125,10 @@ return {
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
-			{ "L3MON4D3/LuaSnip", opts = {}, version = "v2.*" },
+			{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" },
 			{ "windwp/nvim-autopairs", opts = {} },
 			"onsails/lspkind.nvim",
+			"rafamadriz/friendly-snippets",
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -138,6 +140,13 @@ return {
 			local cmp = require("cmp")
 			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+			require("luasnip").config.setup({})
+			require("luasnip.loaders.from_vscode").lazy_load()
+			require("luasnip").filetype_extend("typescript", { "tsdoc" })
+			require("luasnip").filetype_extend("javascript", { "jsdoc" })
+			require("luasnip").filetype_extend("lua", { "luadoc" })
+			require("luasnip").filetype_extend("php", { "phpdoc" })
 
 			return {
 				snippet = {
