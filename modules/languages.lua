@@ -1,5 +1,3 @@
-local list_utils = require("rikthepixel.utils.list")
-
 vim.filetype.add({ extension = { mdx = "markdown.mdx" } })
 vim.filetype.add({ extension = { mdx = "mdx" } })
 
@@ -8,17 +6,17 @@ local languages = {
 	cssls = {},
 	clangd = {},
 	astro = {},
-	jsonls = require("rikthepixel.lsp.jsonls"),
-	yamlls = require("rikthepixel.lsp.yamlls"),
+	jsonls = require("lsp.jsonls"),
+	yamlls = require("lsp.yamlls"),
 	jdtls = {},
 	pyright = {},
 	rust_analyzer = {},
 	mdx_analyzer = {},
-	omnisharp = require("rikthepixel.lsp.omnisharp"),
-	intelephense = require("rikthepixel.lsp.intelephense"),
-	tailwindcss = require("rikthepixel.lsp.tailwind"),
+	omnisharp = require("lsp.omnisharp"),
+	intelephense = require("lsp.intelephense"),
+	tailwindcss = require("lsp.tailwind"),
 	unocss = {},
-	lua_ls = require("rikthepixel.lsp.lua"),
+	lua_ls = require("lsp.lua"),
 	eslint = {},
 }
 
@@ -82,17 +80,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[N]ame", buffer = ev.buf })
 		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ctions", buffer = ev.buf })
 
-		local clients = vim.lsp.get_clients()
-
-		local has_omnisharp = list_utils.find(clients, function(client)
-			return client.name == "omnisharp"
-		end)
-
-		if has_omnisharp then
-			local omnisharp_extended = require("omnisharp_extended")
-			vim.keymap.set("n", "gr", omnisharp_extended.lsp_references, { desc = "[G]o to [R]eference", buffer = ev.buf })
-			vim.keymap.set("n", "gi", omnisharp_extended.lsp_implementation, { desc = "[G]o to [I]mplementation", buffer = ev.buf })
-			vim.keymap.set("n", "gd", omnisharp_extended.lsp_definition, { desc = "[G]o to [D]efinition", buffer = ev.buf })
+		for _, client in ipairs(vim.lsp.get_clients()) do
+			if client.name == "omnisharp" then
+				local omnisharp_extended = require("omnisharp_extended")
+				vim.keymap.set("n", "gr", omnisharp_extended.lsp_references, { desc = "[G]o to [R]eference", buffer = ev.buf })
+				vim.keymap.set("n", "gi", omnisharp_extended.lsp_implementation, { desc = "[G]o to [I]mplementation", buffer = ev.buf })
+				vim.keymap.set("n", "gd", omnisharp_extended.lsp_definition, { desc = "[G]o to [D]efinition", buffer = ev.buf })
+				break
+			end
 		end
 	end,
 })
@@ -115,7 +110,7 @@ return {
 				automatic_installation = true,
 			})
 
-			require("rikthepixel.utils.mason").install_missing("typescript-language-server")
+			require("utils.mason").install_missing("typescript-language-server")
 
 			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -158,7 +153,7 @@ return {
 			require("luasnip").filetype_extend("php", { "phpdoc" })
 			require("luasnip").filetype_extend("json", { "npm" })
 
-            --- @module "cmp"
+			--- @module "cmp"
 			--- @type cmp.ConfigSchema
 			return {
 				snippet = {

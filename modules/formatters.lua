@@ -1,5 +1,3 @@
-local mason_utils = require("rikthepixel.utils.mason")
-
 return {
 	{
 		"stevearc/conform.nvim",
@@ -22,7 +20,7 @@ return {
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 		end,
 		opts = function()
-			mason_utils.install_missing("prettierd", "stylua", "pint")
+			require("utils.mason").install_missing("prettierd", "stylua", "pint")
 			---@module "conform"
 			---@type conform.setupOpts
 			return {
@@ -41,8 +39,8 @@ return {
 					lsp_format = "fallback",
 				},
 				formatters = {
-					standardts = require("rikthepixel.formatters.standardts"),
-					dotnetformat = require("rikthepixel.formatters.dotnetformat"),
+					standardts = require("formatters.standardts"),
+					dotnetformat = require("formatters.dotnetformat"),
 				},
 			}
 		end,
