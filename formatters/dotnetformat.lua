@@ -1,7 +1,8 @@
 return function()
 	local util = require("conform.util")
 
-	---@type conform.FileFormatterConfig
+    --- @module "conform"
+	--- @type conform.FileFormatterConfig
 	return {
 		meta = {
 			url = "https://standardjs.com",

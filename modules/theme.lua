@@ -51,4 +51,34 @@ return {
 			{ "nvim-tree/nvim-web-devicons" },
 		},
 	},
+	{
+		"felpafel/inlay-hint.nvim",
+		event = "LspAttach",
+		opts = {
+			virt_text_pos = "inline",
+		},
+	},
+	-- {
+	-- 	"max397574/startup.nvim",
+	-- 	lazy = false,
+	-- 	dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+	-- 	opts = {
+	-- 		header = {
+	-- 			type = "text",
+	-- 			oldfiles_directory = false,
+	-- 			align = "center",
+	-- 			fold_section = false,
+	-- 			title = "Neovim",
+	-- 			margin = 1,
+	-- 			content = {
+	-- 				"Hello world",
+	-- 				"", -- If I delete this, I get the error.
+	-- 			},
+	-- 			highlight = "Normal",
+	-- 			default_color = "",
+	-- 			oldfiles_amount = 0,
+	-- 		},
+	-- 		parts = { "header" },
+	-- 	},
+	-- },
 }

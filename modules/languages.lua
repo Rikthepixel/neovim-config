@@ -1,14 +1,19 @@
 local list_utils = require("rikthepixel.utils.list")
 
+vim.filetype.add({ extension = { mdx = "markdown.mdx" } })
+vim.filetype.add({ extension = { mdx = "mdx" } })
+
 local languages = {
 	html = {},
 	cssls = {},
 	clangd = {},
 	astro = {},
-	jsonls = {},
-	yamlls = {},
+	jsonls = require("rikthepixel.lsp.jsonls"),
+	yamlls = require("rikthepixel.lsp.yamlls"),
 	jdtls = {},
+	pyright = {},
 	rust_analyzer = {},
+	mdx_analyzer = {},
 	omnisharp = require("rikthepixel.lsp.omnisharp"),
 	intelephense = require("rikthepixel.lsp.intelephense"),
 	tailwindcss = require("rikthepixel.lsp.tailwind"),
@@ -19,9 +24,11 @@ local languages = {
 
 local highlights = {
 	"lua",
+	"luadoc",
 	"tsx",
 	"typescript",
 	"javascript",
+	"python",
 	"jsdoc",
 	"html",
 	"css",
@@ -36,6 +43,7 @@ local highlights = {
 	"ssh_config",
 	"toml",
 	"yaml",
+	"c",
 	"json",
 	"markdown",
 	"markdown_inline",
@@ -74,7 +82,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[N]ame", buffer = ev.buf })
 		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ctions", buffer = ev.buf })
 
-		local clients = vim.lsp.buf_get_clients()
+		local clients = vim.lsp.get_clients()
 
 		local has_omnisharp = list_utils.find(clients, function(client)
 			return client.name == "omnisharp"
@@ -98,6 +106,7 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"Hoffs/omnisharp-extended-lsp.nvim",
+			"b0o/schemastore.nvim",
 		},
 		config = function()
 			require("mason").setup()
@@ -117,7 +126,7 @@ return {
 			for name, config in pairs(languages) do
 				lspconfig[name].setup(vim.tbl_extend("force", {
 					capabilities = capabilities,
-				}, config))
+				}, type(config) == "function" and config() or config))
 			end
 		end,
 	},
@@ -147,7 +156,10 @@ return {
 			require("luasnip").filetype_extend("javascript", { "jsdoc" })
 			require("luasnip").filetype_extend("lua", { "luadoc" })
 			require("luasnip").filetype_extend("php", { "phpdoc" })
+			require("luasnip").filetype_extend("json", { "npm" })
 
+            --- @module "cmp"
+			--- @type cmp.ConfigSchema
 			return {
 				snippet = {
 					expand = function(args)
@@ -187,23 +199,25 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		event = "BufEnter",
 		main = "nvim-treesitter.configs",
-		opts = {
-			ensure_installed = highlights,
-			sync_install = false,
-			highlight = {
-				enable = true,
-				use_languagetree = true,
-			},
-			indent = { enable = true },
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<C-l>",
-					node_incremental = "<C-l>",
-					node_decremental = "<C-h>",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = highlights,
+				sync_install = false,
+				highlight = {
+					enable = true,
+					use_languagetree = true,
 				},
-			},
-		},
+				indent = { enable = true },
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = "<C-l>",
+						node_incremental = "<C-l>",
+						node_decremental = "<C-h>",
+					},
+				},
+			})
+		end,
 		build = ":TSUpdate",
 	},
 	{
@@ -217,5 +231,10 @@ return {
 				},
 			},
 		},
+	},
+
+	{
+		"jxnblk/vim-mdx-js",
+		ft = "markdown.mdx",
 	},
 }
