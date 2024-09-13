@@ -142,6 +142,7 @@ return {
 		},
 		opts = function()
 			local cmp = require("cmp")
+			local compare = require("cmp.config.compare")
 			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
@@ -187,6 +188,19 @@ return {
 				}, {
 					{ name = "buffer" },
 				}),
+				sorting = {
+					priority_weight = 1,
+					comparators = {
+						compare.exact,
+						compare.locality,
+						compare.offset,
+						compare.recently_used,
+						compare.kind,
+						compare.score,
+						compare.length,
+						compare.order,
+					},
+				},
 			}
 		end,
 	},
