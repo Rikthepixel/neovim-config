@@ -88,11 +88,11 @@ return {
 		version = "v1.3",
 		keys = {
 			{
-				"<leader>sb",
+				"<leader>fb",
 				function()
                     require("nvim-tree.api").tree.toggle({ find_file = true })
 				end,
-				desc = "[S]earch [B]rowser",
+				desc = "[F]ind [B]rowser",
 			},
 		},
 		dependencies = {
@@ -121,25 +121,25 @@ return {
 		"nvim-telescope/telescope.nvim",
 		keys = {
 			{
-				"<leader>sf",
+				"<leader>ff",
 				function()
 					require("telescope.builtin").find_files({ hidden = true })
 				end,
-				desc = "[S]earch [F]iles",
+				desc = "[F]ind [F]iles",
 			},
 			{
-				"<leader>sg",
+				"<leader>fg",
 				function()
 					require("telescope.builtin").live_grep()
 				end,
-				desc = "[S]earch [G]rep",
+				desc = "[F]ind [G]rep",
 			},
 			{
-				"<leader>sr",
+				"<leader>fr",
 				function()
 					require("telescope.builtin").git_files()
 				end,
-				desc = "[S]earch [R]epository",
+				desc = "[F]ind [R]epository",
 			},
 		},
 		cmd = { "Telescope" },

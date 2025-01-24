@@ -44,9 +44,6 @@ vim.opt.number = true
 vim.opt.numberwidth = 2
 vim.opt.ruler = false
 
--- disable nvim intro
-vim.opt.shortmess:append "sI"
-
 vim.opt.signcolumn = "yes"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -54,14 +51,9 @@ vim.opt.termguicolors = true
 vim.opt.timeoutlen = 400
 vim.opt.undofile = true
 
--- interval for writing swap file to disk, also used by gitsigns
-vim.opt.updatetime = 100
-
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 vim.opt.whichwrap:append "<>[]hl"
 
--- disable some default providers
-for _, provider in ipairs { "node", "perl", "python3", "ruby" } do
-  vim.g["loaded_" .. provider .. "_provider"] = 0
-end
+-- interval for writing swap file to disk, also used by gitsigns
+vim.opt.updatetime = 100
