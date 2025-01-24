@@ -39,8 +39,8 @@ return {
 					lsp_format = "fallback",
 				},
 				formatters = {
-					standardts = require("formatters.standardts"),
-					dotnetformat = require("formatters.dotnetformat"),
+					standardts = require("fmt.standardts"),
+					dotnetformat = require("fmt.dotnetformat"),
 				},
 			}
 		end,
