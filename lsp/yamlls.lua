@@ -6,7 +6,7 @@ return function()
 					enable = false,
 					url = "",
 				},
-				schemas = require("schemastore").json.schemas(),
+				schemas = require("schemastore").yaml.schemas(),
 			},
 		},
 	}

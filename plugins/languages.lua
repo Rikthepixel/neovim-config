@@ -1,51 +1,24 @@
-vim.filetype.add({ extension = { mdx = "markdown.mdx" } })
-vim.filetype.add({ extension = { mdx = "mdx" } })
+local languages = require("languages")
 
-local languages = {
-	html = {},
-	cssls = {},
-	clangd = {},
-	astro = {},
-	jsonls = require("lsp.jsonls"),
-	yamlls = require("lsp.yamlls"),
-	jdtls = {},
-	pyright = {},
-	rust_analyzer = {},
-	mdx_analyzer = {},
-	omnisharp = require("lsp.omnisharp"),
-	intelephense = require("lsp.intelephense"),
-	tailwindcss = require("lsp.tailwind"),
-	unocss = {},
-	lua_ls = require("lsp.lua"),
-	eslint = {},
-}
+local plugins = {}
+local mason_ensure_installed = {}
+local treesitter_ensure_installed = {}
 
-local highlights = {
-	"lua",
-	"luadoc",
-	"tsx",
-	"typescript",
-	"javascript",
-	"python",
-	"jsdoc",
-	"html",
-	"css",
-	"astro",
-	"c_sharp",
-	"php",
-	"dockerfile",
-	"gitattributes",
-	"gitignore",
-	"vim",
-	"vimdoc",
-	"ssh_config",
-	"toml",
-	"yaml",
-	"c",
-	"json",
-	"markdown",
-	"markdown_inline",
-}
+-- Installs required plugins according to Language Servers and Highlighters
+for _, highlighter in pairs({ table.unpack(languages.language_servers), table.unpack(languages.highlighters) }) do
+	if type(highlighter) == "string" then
+		goto continue
+	end
+
+	for _, plugin in pairs(highlighter.plugins or {}) do
+		table.insert(plugins, plugin)
+	end
+	for _, mason in pairs(highlighter.mason or {}) do
+		table.insert(mason_ensure_installed, mason)
+	end
+
+	::continue::
+end
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "[E]rror" })
 vim.keymap.set("n", "<leader>el", vim.diagnostic.setloclist, { desc = "[E]rror [L]ist" })
@@ -104,13 +77,22 @@ return {
 			"b0o/schemastore.nvim",
 		},
 		config = function()
+			local ensure_installed = {}
+
+			for _, language in pairs(languages.language_servers) do
+				if type(language) == "string" then
+					table.insert(ensure_installed, language)
+				elseif type(language.name) == "string" then
+					table.insert(ensure_installed, language.name)
+				end
+			end
+
 			require("mason").setup()
 			require("mason-lspconfig").setup({
-				ensure_installed = vim.tbl_keys(languages),
+				ensure_installed = ensure_installed,
 				automatic_installation = true,
 			})
-
-			require("utils.mason").install_missing("typescript-language-server")
+			require("utils.mason").install_missing(table.unpack(mason_ensure_installed))
 
 			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -118,10 +100,25 @@ return {
 			local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 			vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin" .. (is_windows and ";" or ":") .. vim.env.PATH
 
-			for name, config in pairs(languages) do
-				lspconfig[name].setup(vim.tbl_extend("force", {
-					capabilities = capabilities,
-				}, type(config) == "function" and config() or config))
+			for _, language in pairs(languages.language_servers) do
+				local config = { capabilities = capabilities }
+
+				if type(language) == "string" then
+					-- lspconfig[language].setup(config)
+					goto continue
+				end
+
+				if type(language.config) == "table" then
+					config = vim.tbl_extend("force", config, language.config)
+				end
+
+				-- if not language.name then
+				-- 	goto continue
+				-- end
+
+				-- lspconfig[language.name].setup(config)
+
+				::continue::
 			end
 		end,
 	},
@@ -188,19 +185,19 @@ return {
 				}, {
 					{ name = "buffer" },
 				}),
-				sorting = {
-					priority_weight = 1,
-					comparators = {
-						compare.exact,
-						compare.locality,
-						compare.offset,
-						compare.recently_used,
-						compare.kind,
-						compare.score,
-						compare.length,
-						compare.order,
-					},
-				},
+				-- sorting = {
+				-- 	priority_weight = 1,
+				-- 	comparators = {
+				-- 		compare.exact,
+				-- 		compare.locality,
+				-- 		compare.offset,
+				-- 		compare.recently_used,
+				-- 		compare.kind,
+				-- 		compare.score,
+				-- 		compare.length,
+				-- 		compare.order,
+				-- 	},
+				-- },
 			}
 		end,
 	},
@@ -210,7 +207,7 @@ return {
 		main = "nvim-treesitter.configs",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = highlights,
+				ensure_installed = treesitter_ensure_installed,
 				sync_install = false,
 				highlight = {
 					enable = true,
@@ -229,21 +226,5 @@ return {
 		end,
 		build = ":TSUpdate",
 	},
-	{
-		"pmizio/typescript-tools.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-		ft = { "javascript", "typescript", "typescriptreact", "javascriptreact" },
-		opts = {
-			settings = {
-				jsx_close_tag = {
-					enable = true,
-				},
-			},
-		},
-	},
-
-	{
-		"jxnblk/vim-mdx-js",
-		ft = "markdown.mdx",
-	},
+	table.unpack(plugins),
 }

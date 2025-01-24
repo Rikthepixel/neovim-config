@@ -1,4 +1,4 @@
-return function(config_name, modules_path)
+return function(config_name, plugins_path)
 	local lazy_packages = vim.fn.stdpath("data") .. "/" .. config_name .. "/lazy"
 	local lazy_path = lazy_packages .. "/lazy.nvim"
 
@@ -19,7 +19,7 @@ return function(config_name, modules_path)
 
 	vim.opt.rtp:prepend(lazy_path)
 
-	require("lazy").setup(modules_path, {
+	require("lazy").setup(plugins_path, {
 		root = lazy_packages,
 		defaults = { lazy = true },
 		lockfile = vim.fn.stdpath("config") .. "/lua/" .. config_name .. "/lazy-lock.json",

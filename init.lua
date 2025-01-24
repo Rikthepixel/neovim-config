@@ -5,6 +5,7 @@ local config_name = config_path:match(".*[\\/](.*)$")
 _G.config_path = config_path
 _G.config_name = config_name
 
+require(config_name .. ".bootstrap")
 require(config_name .. ".settings")
 package.path = package.path .. ";" .. _G.config_path .. "/?.lua;"
-require(config_name .. ".lazy")(config_name, config_name .. ".modules")
+require(config_name .. ".lazy")(config_name, config_name .. ".plugins")
