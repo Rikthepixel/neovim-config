@@ -44,10 +44,10 @@ return {
 			name = "jsonls",
 			config = require("lsp.jsonls"),
 		},
-        {
-            name = "taplo",
-            config = require("lsp.taplo")
-        },
+		{
+			name = "taplo",
+			config = require("lsp.taplo"),
+		},
 
 		-- PYTHON
 		"pyright",
@@ -149,5 +149,18 @@ return {
 
 		-- DOCKER
 		"dockerfile",
+	},
+	copilot_completions = {
+		"lua",
+		"php",
+
+		"typescript",
+		"typescriptreact",
+		"javascript",
+		"javascriptreact",
+
+		"markdown",
+		"markdown.mdx",
+		"astro",
 	},
 }

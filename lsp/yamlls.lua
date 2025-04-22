@@ -2,10 +2,7 @@ return function()
 	return {
 		settings = {
 			yaml = {
-				schemaStore = {
-					enable = false,
-					url = "",
-				},
+				schemaStore = { enable = false, url = "", },
 				schemas = require("schemastore").yaml.schemas(),
 			},
 		},
