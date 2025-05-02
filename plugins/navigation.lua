@@ -47,9 +47,7 @@ return {
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
+		dependencies = { "nvim-lua/plenary.nvim" },
 		event = "VeryLazy",
 		opts = {
 			settings = {
@@ -92,7 +90,7 @@ return {
 			{
 				"<leader>fb",
 				function()
-                    require("nvim-tree.api").tree.toggle({ find_file = true })
+					require("nvim-tree.api").tree.toggle({ find_file = true })
 				end,
 				desc = "[F]ind [B]rowser",
 			},
@@ -139,13 +137,27 @@ return {
 			{
 				"<leader>fr",
 				function()
-					require("telescope.builtin").git_files()
+					require("telescope.builtin").resume()
 				end,
-				desc = "[F]ind [R]epository",
+				desc = "[F]ind [R]esume",
+			},
+			{
+				"<leader>fc",
+				function()
+					require("telescope.builtin").grep_string()
+				end,
+				desc = "[F]ind [C]ursor",
+			},
+			{
+				"<leader><leader>",
+				function()
+					require("telescope.builtin").buffers()
+				end,
+				desc = "Find open buffers",
 			},
 		},
 		cmd = { "Telescope" },
-		tag = "0.1.5",
+		version = "0.1.*",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",

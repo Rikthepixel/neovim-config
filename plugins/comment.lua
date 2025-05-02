@@ -2,6 +2,14 @@
 --- @type LazyPluginSpec[]
 return {
 	{
+		"folke/todo-comments.nvim",
+		event = "VeryLazy",
+		--- @module "todo-comments"
+		--- @type TodoOptions
+		--- @diagnostic disable-next-line: missing-fields
+		opts = { signs = false },
+	},
+	{
 		"numToStr/Comment.nvim",
 		keys = {
 			{

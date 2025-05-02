@@ -24,9 +24,15 @@ return {
 		end,
 		opts = function()
 			require("utils.mason").install_missing("prettierd", "stylua", "pint")
+
 			---@module "conform"
 			---@type conform.setupOpts
 			return {
+				default_format_opts = { lsp_format = "fallback" },
+				formatters = {
+					standardts = require("fmt.standardts"),
+					dotnetformat = require("fmt.dotnetformat"),
+				},
 				formatters_by_ft = {
 					lua = { "stylua" },
 					php = { "pint" },
@@ -37,13 +43,13 @@ return {
 					json = { "prettier", "prettierd", stop_after_first = true },
 					cs = { "dotnetformat", stop_after_first = true },
 					yaml = { "prettier", "prettierd", stop_after_first = true },
+					_ = { "trim_whitespace" },
 				},
-				default_format_opts = {
+
+				format_on_save = {
+					timeout_ms = 500,
+					async = true,
 					lsp_format = "fallback",
-				},
-				formatters = {
-					standardts = require("fmt.standardts"),
-					dotnetformat = require("fmt.dotnetformat"),
 				},
 			}
 		end,

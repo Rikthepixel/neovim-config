@@ -4,7 +4,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		event = "BufEnter",
+		lazy = false,
 		opts = {
 			no_italic = true,
 			integration = {
@@ -17,6 +17,13 @@ return {
 		},
 		init = function()
 			vim.cmd("colorscheme catppuccin-mocha")
+		end,
+	},
+	{
+		"goolord/alpha-nvim",
+        lazy = false,
+		config = function()
+			require("alpha").setup(require("alpha.themes.theta").config)
 		end,
 	},
 }
