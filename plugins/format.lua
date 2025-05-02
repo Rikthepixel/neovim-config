@@ -28,7 +28,13 @@ return {
 			---@module "conform"
 			---@type conform.setupOpts
 			return {
-				default_format_opts = { lsp_format = "fallback" },
+				notify_no_formatters = false,
+				notify_on_error = false,
+				default_format_opts = {
+					timeout_ms = 2000,
+					stop_after_first = true,
+					lsp_format = "fallback",
+				},
 				formatters = {
 					standardts = require("fmt.standardts"),
 					dotnetformat = require("fmt.dotnetformat"),
@@ -36,20 +42,18 @@ return {
 				formatters_by_ft = {
 					lua = { "stylua" },
 					php = { "pint" },
-					javascript = { "standardjs", "prettier", "prettierd", stop_after_first = true },
-					typescript = { "standardts", "prettier", "prettierd", stop_after_first = true },
-					javascriptreact = { "standardjs", "prettier", "prettierd", stop_after_first = true },
-					typescriptreact = { "standardts", "prettier", "prettierd", stop_after_first = true },
-					json = { "prettier", "prettierd", stop_after_first = true },
-					cs = { "dotnetformat", stop_after_first = true },
-					yaml = { "prettier", "prettierd", stop_after_first = true },
+					javascript = { "standardjs", "prettier", "prettierd" },
+					typescript = { "standardts", "prettier", "prettierd" },
+					javascriptreact = { "standardjs", "prettier", "prettierd" },
+					typescriptreact = { "standardts", "prettier", "prettierd" },
+					json = { "prettier", "prettierd" },
+					cs = { "dotnetformat" },
+					yaml = { "prettier", "prettierd" },
 					_ = { "trim_whitespace" },
 				},
-
 				format_on_save = {
 					timeout_ms = 500,
 					async = true,
-					lsp_format = "fallback",
 				},
 			}
 		end,
