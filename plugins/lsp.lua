@@ -2,7 +2,6 @@ local languages = require("languages")
 
 local plugins = {}
 local mason_ensure_installed = {}
-local treesitter_ensure_installed = {}
 
 -- Installs required plugins according to Language Servers and Highlighters
 for _, language_server in pairs(languages.language_servers) do
@@ -21,20 +20,12 @@ for _, language_server in pairs(languages.language_servers) do
 end
 
 for _, highlighter in pairs(languages.highlighters) do
-	if type(highlighter) == "string" then
-		table.insert(treesitter_ensure_installed, highlighter)
+	if type(highlighter) ~= "table" then
 		goto continue
-	end
-
-	if type(highlighter.name) == "string" then
-		table.insert(treesitter_ensure_installed, highlighter.name)
 	end
 
 	for _, plugin in pairs(highlighter.plugins or {}) do
 		table.insert(plugins, plugin)
-	end
-	for _, mason in pairs(highlighter.mason or {}) do
-		table.insert(mason_ensure_installed, mason)
 	end
 
 	::continue::
@@ -163,116 +154,6 @@ return {
 				end,
 			})
 		end,
-	},
-	{
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-		dependencies = {
-			{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" },
-			{ "windwp/nvim-autopairs", opts = {} },
-			"onsails/lspkind.nvim",
-			"rafamadriz/friendly-snippets",
-			"saadparwaiz1/cmp_luasnip",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-			"hrsh7th/cmp-nvim-lsp",
-			"neovim/nvim-lspconfig",
-
-			{
-				"folke/lazydev.nvim",
-				ft = "lua", -- only load on lua files
-				opts = {
-					library = {
-						"~/Documents/Repositories/lokaal-copilot.nvim",
-						"LazyVim",
-						{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-					},
-				},
-			},
-		},
-		opts = function()
-			local cmp = require("cmp")
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-
-			require("luasnip").config.setup({})
-			require("luasnip.loaders.from_vscode").lazy_load()
-			require("luasnip").filetype_extend("typescript", { "tsdoc" })
-			require("luasnip").filetype_extend("javascript", { "jsdoc" })
-			require("luasnip").filetype_extend("lua", { "luadoc" })
-			require("luasnip").filetype_extend("php", { "phpdoc" })
-			require("luasnip").filetype_extend("json", { "npm" })
-			require("luasnip").filetype_extend("lua", { "lazydev" })
-			table.remove({}, 2)
-
-			--- @module "cmp"
-			--- @type cmp.ConfigSchema
-			return {
-				snippet = {
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
-					end,
-				},
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
-				---@diagnostic disable-next-line: missing-fields
-				formatting = {
-					format = require("lspkind").cmp_format({
-						mode = "symbol_text",
-						maxwidth = 50,
-						ellipsis_char = "...",
-						show_labelDetails = true,
-					}),
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<A-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "path" },
-					{ name = "luasnip" },
-					{ name = "lazydev" },
-				}, {
-					{ name = "buffer" },
-				}),
-				experimental = {
-					ghost_text = true,
-				},
-			}
-		end,
-	},
-	{
-		"nvim-treesitter/nvim-treesitter",
-		event = "BufEnter",
-		main = "nvim-treesitter.configs",
-		config = function()
-			---@diagnostic disable-next-line: missing-fields
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = treesitter_ensure_installed,
-				sync_install = false,
-				highlight = {
-					enable = true,
-					use_languagetree = true,
-				},
-				indent = { enable = true },
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<C-l>",
-						node_incremental = "<C-l>",
-						node_decremental = "<C-h>",
-					},
-				},
-			})
-		end,
-		build = ":TSUpdate",
 	},
 	table.unpack(plugins),
 }
