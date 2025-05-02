@@ -31,6 +31,8 @@ for _, highlighter in pairs(languages.highlighters) do
 	::continue::
 end
 
+--- @module "lazy"
+--- @type LazyPluginSpec[]
 return {
 	{
 		"neovim/nvim-lspconfig",

@@ -18,6 +18,9 @@ for _, highlighter in pairs(languages.highlighters) do
 
 	::continue::
 end
+
+--- @module "lazy"
+--- @type LazyPluginSpec[]
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",

@@ -22,6 +22,7 @@ return function(config_name, plugins_path)
 	require("lazy").setup(plugins_path, {
 		root = lazy_packages,
 		defaults = { lazy = true },
+		change_detection = { notify = false },
 		lockfile = vim.fn.stdpath("config") .. "/lua/" .. config_name .. "/lazy-lock.json",
 	})
 end

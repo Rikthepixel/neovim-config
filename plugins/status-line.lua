@@ -16,6 +16,9 @@ local function harpoon_mark()
 	end
 	return ""
 end
+
+--- @module "lazy"
+--- @type LazyPluginSpec[]
 return {
 
 	{

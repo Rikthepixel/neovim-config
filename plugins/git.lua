@@ -1,9 +1,9 @@
+--- @module "lazy"
+--- @type LazyPluginSpec[]
 return {
 	{
 		"akinsho/git-conflict.nvim",
-		opts = {
-			default_mappings = false,
-		},
+		opts = { default_mappings = false },
 		event = "VeryLazy",
 		keys = {
 			{ "<leader>cq", "<CMD>:GitConflictListQf<CR>", desc = "[C]onflict [Q]uicklist" },
@@ -11,7 +11,8 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		opts = { current_line_blame = true, },
-		event = "VeryLazy",
+		version = "*", -- Latest stable version
+		event = "BufEnter",
+		opts = { current_line_blame = true },
 	},
 }

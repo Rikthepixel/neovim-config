@@ -1,3 +1,5 @@
+--- @module "lazy"
+--- @type LazyPluginSpec[]
 return {
 	{
 		"Pocco81/auto-save.nvim",
