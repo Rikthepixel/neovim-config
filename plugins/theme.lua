@@ -11,7 +11,7 @@ return {
 				mason = true,
 				harpoon = true,
 				gitsigns = true,
-				cmp = true,
+				blink = true,
 				treesitter = true,
 			},
 		},

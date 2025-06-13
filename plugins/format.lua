@@ -31,7 +31,6 @@ return {
 				notify_no_formatters = false,
 				notify_on_error = false,
 				default_format_opts = {
-					timeout_ms = 2000,
 					stop_after_first = true,
 					lsp_format = "fallback",
 				},
@@ -51,10 +50,10 @@ return {
 					yaml = { "prettier", "prettierd" },
 					_ = { "trim_whitespace" },
 				},
-				format_on_save = {
-					timeout_ms = 500,
-					async = true,
-				},
+				-- format_on_save = {
+				-- 	timeout_ms = 3000,
+				-- 	async = true,
+				-- },
 			}
 		end,
 	},

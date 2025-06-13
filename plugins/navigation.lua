@@ -95,15 +95,7 @@ return {
 				desc = "[F]ind [B]rowser",
 			},
 		},
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-			{
-				"antosha417/nvim-lsp-file-operations",
-				dependencies = {
-					"nvim-lua/plenary.nvim",
-				},
-			},
-		},
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 			disable_netrw = true,
 			actions = {
@@ -116,6 +108,15 @@ return {
 				dotfiles = false,
 			},
 		},
+	},
+	{
+		"antosha417/nvim-lsp-file-operations",
+		lazy = false,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-tree.lua",
+		},
+		opts = {},
 	},
 	{
 		"nvim-telescope/telescope.nvim",

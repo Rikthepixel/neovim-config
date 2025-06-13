@@ -1,11 +1,10 @@
 return {
 	settings = {
 		Lua = {
-			hint = { enable = true },
 			runtime = { version = "LuaJIT" },
 			telemetry = { enable = false },
 			diagnostics = {
-				globals = { "vim" },
+				globals = { "vim" , "require" },
 			},
 			workspace = {
 				library = {

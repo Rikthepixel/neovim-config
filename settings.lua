@@ -57,3 +57,5 @@ vim.opt.whichwrap:append "<>[]hl"
 
 -- interval for writing swap file to disk, also used by gitsigns
 vim.opt.updatetime = 100
+
+vim.o.winborder = 'rounded'

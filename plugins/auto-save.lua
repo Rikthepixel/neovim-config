@@ -5,7 +5,8 @@ return {
 		"Pocco81/auto-save.nvim",
 		event = "VeryLazy",
 		opts = {
-            debounce_delay = 500,
+			write_all_buffers = true,
+			debounce_delay = 500,
 			condition = function(buf)
 				local fn = vim.fn
 				local utils = require("auto-save.utils.data")
