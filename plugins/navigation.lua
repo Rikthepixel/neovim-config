@@ -110,7 +110,7 @@ return {
 		},
 	},
 	{
-		"antosha417/nvim-lsp-file-operations",
+		"rikthepixel/nvim-lsp-file-operations",
 		lazy = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",

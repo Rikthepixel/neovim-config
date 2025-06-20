@@ -8,27 +8,21 @@ return {
 		opts = {
 			library = {
 				"~/Documents/Repositories/lokaal-copilot.nvim",
+				"~/Documents/Repositories/nvim-lsp-file-operations",
 				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 			},
 		},
 	},
 	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		build = ":Copilot auth",
-		event = "InsertEnter",
-		--- @module "copilot"
-		--- @type CopilotConfig
-		opts = {
-			suggestion = { enabled = false },
-			panel = { enabled = false },
-			workspace_folders = { "~/Documents/Repositories" },
-		},
+		"windwp/nvim-ts-autotag",
+		event = { "BufEnter", "BufNewFile", "BufReadPre" },
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = { enable_close_on_slash = true },
 	},
 	{
-		"tronikelis/ts-autotag.nvim",
-		opts = {},
-		event = "VeryLazy",
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = { disable_filetype = { "TelescopePrompt", "spectre_panel", "snacks_picker_input", "NvimTree_1" } },
 	},
 	{
 		"saghen/blink.cmp",

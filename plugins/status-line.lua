@@ -30,10 +30,12 @@ return {
 			},
 			sections = {
 				lualine_c = { "filename", harpoon_mark },
+				lualine_x = { "copilot", "diagnostics", "diff", "filetype" },
 			},
 		},
 		dependencies = {
-			{ "nvim-tree/nvim-web-devicons" },
+			"AndreM222/copilot-lualine",
+			"nvim-tree/nvim-web-devicons",
 		},
 	},
 }

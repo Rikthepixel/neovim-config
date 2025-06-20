@@ -4,7 +4,8 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		event = "BufEnter",
-		main = "nvim-treesitter.configs",
+		branch = "master",
+		build = ":TSUpdate",
 		config = function()
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup({
@@ -51,7 +52,6 @@ return {
 				},
 			})
 		end,
-		build = ":TSUpdate",
 	},
 	{
 		"jxnblk/vim-mdx-js",
