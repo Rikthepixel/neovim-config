@@ -110,12 +110,14 @@ return {
 		},
 	},
 	{
-		"rikthepixel/nvim-lsp-file-operations",
+		"rikthepixel/lsp-file-operations.nvim",
 		lazy = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-tree.lua",
 		},
+		---@module "lsp-file-operations"
+		---@type Config
 		opts = {},
 	},
 	{

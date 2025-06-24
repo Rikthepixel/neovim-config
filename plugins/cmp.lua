@@ -4,11 +4,11 @@
 return {
 	{
 		"folke/lazydev.nvim",
-		ft = "lua", -- only load on lua files
+		ft = "lua",
 		opts = {
 			library = {
 				"~/Documents/Repositories/lokaal-copilot.nvim",
-				"~/Documents/Repositories/nvim-lsp-file-operations",
+				"~/Documents/Repositories/copilot-rules.nvim",
 				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 			},
 		},
@@ -16,8 +16,11 @@ return {
 	{
 		"windwp/nvim-ts-autotag",
 		event = { "BufEnter", "BufNewFile", "BufReadPre" },
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		opts = { enable_close_on_slash = true },
+		opts = {
+			opts = {
+				enable_close_on_slash = true,
+			},
+		},
 	},
 	{
 		"windwp/nvim-autopairs",

@@ -18,6 +18,7 @@ return {
 				settings = { advanced = { inlineSuggestCount = 3 } },
 			},
 			workspace_folders = { "~/Documents/Repositories" },
+			filetypes = { markdown = true },
 		},
 	},
 
