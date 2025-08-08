@@ -4,7 +4,6 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		lazy = false,
 		opts = {
 			no_italic = true,
 			integration = {
@@ -21,9 +20,10 @@ return {
 	},
 	{
 		"goolord/alpha-nvim",
-        lazy = false,
+		lazy = false,
 		config = function()
 			require("alpha").setup(require("alpha.themes.theta").config)
 		end,
 	},
+	{ "nvim-tree/nvim-web-devicons", },
 }

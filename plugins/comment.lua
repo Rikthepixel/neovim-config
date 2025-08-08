@@ -3,7 +3,7 @@
 return {
 	{
 		"folke/todo-comments.nvim",
-		event = "VeryLazy",
+		event = "BufEnter",
 		--- @module "todo-comments"
 		--- @type TodoOptions
 		--- @diagnostic disable-next-line: missing-fields

@@ -1,6 +1,7 @@
 --- @module "lazy"
 --- @type LazyPluginSpec[]
 return {
+	{ "Hoffs/omnisharp-extended-lsp.nvim", ft = { "csharp" } },
 	{
 		"mason-org/mason-lspconfig.nvim",
 		event = "BufEnter",
@@ -8,11 +9,6 @@ return {
 			{ "mason-org/mason.nvim", opts = {} },
 			"neovim/nvim-lspconfig",
 			"b0o/schemastore.nvim",
-			{
-				"Hoffs/omnisharp-extended-lsp.nvim",
-				ft = { "csharp" },
-				lazy = true,
-			},
 		},
 		opts = function()
 			local language_servers = {
@@ -33,6 +29,7 @@ return {
 				"rust_analyzer",
 				"astro",
 				"ts_ls",
+                "emmet_ls",
 			}
 
 			local ensure_installed = {}
@@ -49,7 +46,7 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(ev)
 					local bufnr = ev.buf
-					opts = { buffer = bufnr }
+					local opts = { buffer = bufnr }
 
 					local map = vim.keymap.set
 
@@ -62,8 +59,6 @@ return {
 					map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 
 					map("n", "K", vim.lsp.buf.hover, opts)
-					map("n", "gd", vim.lsp.buf.definition, opts)
-					map("n", "gr", vim.lsp.buf.references, opts)
 
 					local client = vim.lsp.get_client_by_id(ev.data.client_id)
 					if client and client.name == "omnisharp" then
@@ -72,6 +67,9 @@ return {
 						map("n", "gr", omnisharp_extended.lsp_references, opts)
 						map("n", "gi", omnisharp_extended.lsp_implementation, opts)
 						map("n", "gd", omnisharp_extended.lsp_definition, opts)
+					else
+						map("n", "gr", vim.lsp.buf.references, opts)
+						map("n", "gd", vim.lsp.buf.definition, opts)
 					end
 				end,
 			})

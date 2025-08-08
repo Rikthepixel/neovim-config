@@ -9,6 +9,8 @@ vim.filetype.add({
 	pattern = {
 		[".env.*"] = "sh",
 		[".*%.env"] = "sh",
+		[".termz.*"] = "json",
+		[".*%.termz"] = "json",
 	},
 })
 

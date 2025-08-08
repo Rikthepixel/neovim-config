@@ -33,9 +33,6 @@ return {
 				lualine_x = { "copilot", "diagnostics", "diff", "filetype" },
 			},
 		},
-		dependencies = {
-			"AndreM222/copilot-lualine",
-			"nvim-tree/nvim-web-devicons",
-		},
+		dependencies = { "AndreM222/copilot-lualine" },
 	},
 }

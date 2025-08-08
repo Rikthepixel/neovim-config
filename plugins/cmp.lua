@@ -29,7 +29,8 @@ return {
 	},
 	{
 		"saghen/blink.cmp",
-		version = "1.*",
+		-- branch = "main",
+        version = "1.*",
 
 		event = "VimEnter",
 
@@ -88,6 +89,9 @@ return {
 						-- score_offset = 100,
 						async = true,
 					},
+				},
+				per_filetype = {
+					codecompanion = { "codecompanion" },
 				},
 			},
 

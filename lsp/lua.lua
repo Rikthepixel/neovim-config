@@ -3,9 +3,7 @@ return {
 		Lua = {
 			runtime = { version = "LuaJIT" },
 			telemetry = { enable = false },
-			diagnostics = {
-				globals = { "vim" , "require" },
-			},
+			diagnostics = { globals = { "vim" , "require" }, },
 			workspace = {
 				library = {
 					vim.env.VIMRUNTIME,

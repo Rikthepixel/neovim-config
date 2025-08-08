@@ -47,8 +47,7 @@ return {
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		event = "VeryLazy",
+		event = "BufEnter",
 		opts = {
 			settings = {
 				sync_on_ui_close = true,
@@ -86,6 +85,14 @@ return {
 		"nvim-tree/nvim-tree.lua",
 		lazy = false,
 		version = "v1.3",
+		dependencies = {
+			{
+				"rikthepixel/lsp-file-operations.nvim",
+				---@module "lsp-file-operations"
+				---@type Config
+				opts = {},
+			},
+		},
 		keys = {
 			{
 				"<leader>fb",
@@ -95,7 +102,6 @@ return {
 				desc = "[F]ind [B]rowser",
 			},
 		},
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 			disable_netrw = true,
 			actions = {
@@ -108,17 +114,6 @@ return {
 				dotfiles = false,
 			},
 		},
-	},
-	{
-		"rikthepixel/lsp-file-operations.nvim",
-		lazy = false,
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-tree.lua",
-		},
-		---@module "lsp-file-operations"
-		---@type Config
-		opts = {},
 	},
 	{
 		"nvim-telescope/telescope.nvim",
@@ -161,10 +156,6 @@ return {
 		},
 		cmd = { "Telescope" },
 		version = "0.1.*",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons",
-		},
 		opts = function()
 			return {
 				defaults = {
