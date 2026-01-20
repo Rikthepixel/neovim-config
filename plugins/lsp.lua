@@ -11,37 +11,50 @@ return {
 			"b0o/schemastore.nvim",
 		},
 		opts = function()
-			local language_servers = {
-				["tailwindcss"] = require("lsp.tailwind"),
-				["lua_ls"] = require("lsp.lua"),
-				["intelephense"] = require("lsp.intelephense"),
-				["omnisharp"] = require("lsp.omnisharp"),
-				["yamlls"] = require("lsp.yamlls"),
-				["jsonls"] = require("lsp.jsonls"),
-				["taplo"] = require("lsp.taplo"),
-				"html",
-				"cssls",
-				"unocss",
-				"clangd",
-				"pyright",
-				"eslint",
-				"mdx_analyzer",
-				"rust_analyzer",
-				"astro",
-				"ts_ls",
-                "emmet_ls",
-			}
-
 			local ensure_installed = {}
-			for server, config in pairs(language_servers) do
-				if type(server) == "number" and type(config) == "string" then
-					table.insert(ensure_installed, config)
-				end
-				if type(server) == "string" and (type(config) == "table" or type(config) == "function") then
-					table.insert(ensure_installed, server)
-					vim.lsp.config(server, type(config) == "function" and config() or config)
-				end
+
+			local function config_lsp(lsp_name, config)
+				table.insert(ensure_installed, lsp_name)
+
+				config = config or {}
+				vim.lsp.config(lsp_name, type(config) == "function" and config() or config)
 			end
+
+			config_lsp("lua_ls", require("lsp.lua"))
+
+			config_lsp("intelephense", require("lsp.intelephense"))
+            config_lsp("laravel_ls")
+
+			config_lsp("omnisharp", require("lsp.omnisharp"))
+			config_lsp("clangd")
+			config_lsp("pyright")
+			config_lsp("rust_analyzer")
+
+            -- Data formats
+			config_lsp("yamlls", require("lsp.yamlls"))
+			config_lsp("jsonls", require("lsp.jsonls"))
+			config_lsp("taplo", require("lsp.taplo"))
+
+            -- HTML/CSS
+			config_lsp("html")
+			config_lsp("cssls")
+			config_lsp("unocss")
+			config_lsp("tailwindcss", require("lsp.tailwind"))
+
+            -- JS-related
+			config_lsp("ts_ls")
+			config_lsp("eslint", require("lsp.eslint"))
+			config_lsp("mdx_analyzer")
+			config_lsp("emmet_ls")
+			config_lsp("astro")
+			config_lsp("svelte")
+
+            config_lsp("docker_language_server")
+            config_lsp("docker_compose_language_service")
+            config_lsp("terraformls")
+
+			vim.lsp.config("gdscript", {})
+			vim.lsp.enable("gdscript")
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(ev)
@@ -74,9 +87,7 @@ return {
 				end,
 			})
 
-			return {
-				ensure_installed = ensure_installed,
-			}
+			return { ensure_installed = ensure_installed }
 		end,
 	},
 }

@@ -84,15 +84,7 @@ return {
 	{
 		"nvim-tree/nvim-tree.lua",
 		lazy = false,
-		version = "v1.3",
-		dependencies = {
-			{
-				"rikthepixel/lsp-file-operations.nvim",
-				---@module "lsp-file-operations"
-				---@type Config
-				opts = {},
-			},
-		},
+		version = "v1.15",
 		keys = {
 			{
 				"<leader>fb",
@@ -102,18 +94,63 @@ return {
 				desc = "[F]ind [B]rowser",
 			},
 		},
-		opts = {
-			disable_netrw = true,
-			actions = {
-				open_file = {
-					quit_on_open = true,
+
+		opts = function()
+			local prev = { new_name = "", old_name = "" } -- Prevents duplicate events
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "NvimTreeSetup",
+				callback = function()
+					local events = require("nvim-tree.api").events
+					events.subscribe(events.Event.NodeRenamed, function(data)
+						if prev.new_name ~= data.new_name or prev.old_name ~= data.old_name then
+							data = data
+							Snacks.rename.on_rename_file(data.old_name, data.new_name)
+						end
+					end)
+				end,
+			})
+
+			return {
+				disable_netrw = true,
+				actions = {
+					open_file = { quit_on_open = true },
 				},
-			},
-			filters = {
-				git_ignored = false,
-				dotfiles = false,
-			},
-		},
+				filesystem_watchers = {
+					ignore_dirs = function(path)
+						local ignored = {
+							{ "node_modules", root = "package.json" },
+							{ "vendor", root = "composer.json" },
+							".git",
+							"dist",
+						}
+
+						for _, ignore_dirs in ipairs(ignored) do
+							ignore_dirs = type(ignore_dirs) == "table" and ignore_dirs or { ignore_dirs }
+
+							local matched = false
+							for _, dir in ipairs(ignore_dirs) do
+								if vim.fn.match(path, dir) ~= -1 then
+									matched = true
+									break
+								end
+							end
+
+							if type(ignore_dirs.root) ~= "string" or not matched then
+								return matched
+							end
+
+							-- Check if root file exists in the directory
+							local root_signature = vim.fs.joinpath(vim.fs.dirname(path), vim.fs.normalize(ignore_dirs.root))
+							return not not vim.uv.fs_stat(root_signature)
+						end
+					end,
+				},
+				filters = {
+					git_ignored = false,
+					dotfiles = false,
+				},
+			}
+		end,
 	},
 	{
 		"nvim-telescope/telescope.nvim",

@@ -25,7 +25,8 @@ return function(config_name, plugins_path)
 		defaults = { lazy = true },
 		change_detection = { notify = false },
 		install = { colorscheme = { "catppuccin-mocha", "habamax" } },
-		dev = { path = "~/Documents/Repositories/",
+		dev = {
+			path = "~/Documents/Repositories/",
 			-- fallback = true,
 		},
 		lockfile = vim.fn.stdpath("config") .. "/lua/" .. config_name .. "/lazy-lock.json",

@@ -30,9 +30,14 @@ return {
 			},
 			sections = {
 				lualine_c = { "filename", harpoon_mark },
-				lualine_x = { "copilot", "diagnostics", "diff", "filetype" },
+				lualine_x = {
+					-- "copilot",
+					"diagnostics",
+					"diff",
+					"filetype",
+				},
 			},
 		},
-		dependencies = { "AndreM222/copilot-lualine" },
+		-- dependencies = { "AndreM222/copilot-lualine" },
 	},
 }

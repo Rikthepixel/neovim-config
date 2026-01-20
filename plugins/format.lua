@@ -25,6 +25,9 @@ return {
 		opts = function()
 			require("utils.mason").install_missing("prettierd", "stylua", "pint")
 
+			local js_like = { "standardjs", "prettierd", "prettier" }
+			local ts_like = { "standardts", "prettierd", "prettier" }
+
 			---@module "conform"
 			---@type conform.setupOpts
 			return {
@@ -36,18 +39,22 @@ return {
 				},
 				formatters = {
 					standardts = require("fmt.standardts"),
-					dotnetformat = require("fmt.dotnetformat"),
+					dotnet_fmt = require("fmt.dotnet_fmt"),
+                    caddy_fmt = require("fmt.caddy_fmt")
 				},
 				formatters_by_ft = {
 					lua = { "stylua" },
 					php = { "pint" },
-					javascript = { "standardjs", "prettier", "prettierd" },
-					typescript = { "standardts", "prettier", "prettierd" },
-					javascriptreact = { "standardjs", "prettier", "prettierd" },
-					typescriptreact = { "standardts", "prettier", "prettierd" },
-					json = { "prettier", "prettierd" },
-					cs = { "dotnetformat" },
-					yaml = { "prettier", "prettierd" },
+					javascript = js_like,
+					javascriptreact = js_like,
+					typescript = ts_like,
+					typescriptreact = ts_like,
+					svelte = ts_like,
+					json = { "prettierd", "prettier" },
+					yaml = { "prettierd", "prettier" },
+					cs = { "dotnet_fmt" },
+                    terraform = { "terraform_fmt" },
+                    caddy = { "caddy_fmt" },
 					_ = { "trim_whitespace" },
 				},
 				-- format_on_save = {

@@ -50,6 +50,17 @@ return function()
 			"vue",
 			"svelte",
 		},
+        settings = {
+            tailwindCSS = {
+                experimental = {
+                    classRegex = {
+                        "(?:class|className):\\s*?[\"'`]([^\"'`]*).*?,?",
+                        "(?:clsx|cn)\\(([^)]*)\\)",
+                        "(?:[\\w]+ClassName)=[\"'`]([^\"'`]*).*?",
+                    },
+                }
+            }
+        },
 		init_options = {
 			userLanguages = {
 				eelixir = "html-eex",

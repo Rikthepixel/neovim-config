@@ -7,7 +7,7 @@ return {
 		ft = "lua",
 		opts = {
 			library = {
-				"~/Documents/Repositories/lokaal-copilot.nvim",
+				-- "~/Documents/Repositories/lokaal-copilot.nvim",
 				"~/Documents/Repositories/copilot-rules.nvim",
 				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 			},
@@ -30,13 +30,13 @@ return {
 	{
 		"saghen/blink.cmp",
 		-- branch = "main",
-        version = "1.*",
+		version = "1.*",
 
 		event = "VimEnter",
 
 		dependencies = {
 			"rafamadriz/friendly-snippets",
-			"fang2hou/blink-copilot",
+			-- "fang2hou/blink-copilot",
 			"folke/lazydev.nvim",
 		},
 
@@ -76,22 +76,29 @@ return {
 			},
 
 			sources = {
-				default = { "copilot", "lazydev", "lsp", "path", "snippets", "buffer" },
+				default = {
+					-- "copilot",
+					"lazydev",
+					"lsp",
+					"path",
+					"snippets",
+					"buffer",
+				},
 				providers = {
 					lazydev = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",
 						-- score_offset = 100,
 					},
-					copilot = {
-						name = "copilot",
-						module = "blink-copilot",
-						-- score_offset = 100,
-						async = true,
-					},
+					-- copilot = {
+					-- 	name = "copilot",
+					-- 	module = "blink-copilot",
+					-- 	score_offset = 100,
+					-- 	async = true,
+					-- },
 				},
 				per_filetype = {
-					codecompanion = { "codecompanion" },
+					-- codecompanion = { "codecompanion" },
 				},
 			},
 

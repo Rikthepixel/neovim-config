@@ -13,7 +13,7 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 
 -- Scrolling
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 16
 vim.opt.sidescrolloff = 16
 vim.opt.wrap = false
 
@@ -50,6 +50,8 @@ vim.opt.splitright = true
 vim.opt.termguicolors = true
 vim.opt.timeoutlen = 400
 vim.opt.undofile = true
+vim.opt.relativenumber = true
+vim.opt.synmaxcol = 500
 
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
